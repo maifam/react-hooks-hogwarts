@@ -1,6 +1,7 @@
 import React, {useState} from "react"
 import Filter from './Filter'
 import HogCard from './HogCard'
+import HogForm from './HogForm'
 
 
 function HogList({hogs}) {
@@ -8,7 +9,16 @@ function HogList({hogs}) {
     const [showGreased, setShowGreased] = useState(false)
     const [sortBy, setSortBy] = useState("weight")
 
-    const filteredHogs = hogs
+    const [hogState, setHogState] = useState(hogs)
+
+
+    function handleAddHog(newHog){
+        setHogState([newHog, ... hogState])
+    }
+
+
+
+    const filteredHogs = hogState
         .filter(hog => {
             if (showGreased) {
                 return hog.greased
@@ -39,6 +49,7 @@ function HogList({hogs}) {
                     sortyBy={sortBy}
                     setSortBy={setSortBy}
                 />
+                <HogForm onAddHog={handleAddHog}/>
             </div>
             <div className="ui grid container">
              {hogTiles}
